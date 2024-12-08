@@ -18,7 +18,7 @@ func main() {
 	defer file.Close()
 
 	// Initialize slices to store values from both columns
-	var column1, column2 []int
+	var column1, column2, sum []int
 
 	// Create a scanner to read the file line by line
 	scanner := bufio.NewScanner(file)
@@ -40,13 +40,32 @@ func main() {
 		log.Fatal(err)
 	}
 
+	sort.Ints(column1)
+	sort.Ints(column2)
+
 	// Output the contents of the two variables
 	fmt.Println("Column 1:", column1)
 	fmt.Println("Column 2:", column2)
 
-	sort.Ints(column1)
-	sort.Ints(column2)
+	// fmt.Print(column1[0])
+	// fmt.Print(column2[0])
 
-	fmt.Print(column1[0])
-	fmt.Print(column2[0])
+	// should be equal length columns
+	for i, j := range column1 {
+		sum = append(sum, j-column2[i])
+	}
+	fmt.Printf("%d", sum)
+
+	total := 0
+	for _, value := range sum {
+		total += abs(value)
+	}
+	fmt.Printf("Total: %d", total)
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }
